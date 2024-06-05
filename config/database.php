@@ -4,14 +4,14 @@
 
         private $host = "srv863.hstgr.io";
         private $pass = '#5?Sf1p0Vh';
-        private $usua = "u484426513_multimedios022";
-        private $database =  "u484426513_multimedios022";
+        private $usua = "u484426513_multimedios012";
+        private $database =  "u484426513_multimedios012";
 
 
 
         public $conectors;
 
-        public function obtenerConn(){
+        public function obtenerConexion(){
 
             $this->conectors = null;
 
