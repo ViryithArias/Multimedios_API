@@ -33,10 +33,10 @@
         case 'GET':
                 if (!empty($_GET["idCliente"])){
                     $idCliente = intval($_GET["idCliente"]);
-                    obtenerClientes($idCliente);
+                    obtenerCliente($idCliente);
                 }
                 else{
-                    obtenerCliente();
+                    obtenerClientes();
                 }
             break;
                                             
@@ -53,7 +53,7 @@
 
 
     //-------------------Obtener Cliente------------------------
-    function obtenerCliente(){
+    function obtenerClientes(){
         
         global $db;
 
@@ -65,7 +65,7 @@
         
     }
 
-    function obtenerClientes($idCliente){
+    function obtenerCliente($idCliente){
         global $db;
 
             $query = "SELECT `idCliente`, `nombre`, `apellido`, `email`, `telefono`, `direccion`, `pais` FROM `MAV_Clientes` WHERE  `idCliente`=?";
@@ -92,10 +92,10 @@
    
         if($stm->execute()){
             
-            echo json_encode(array("message" => "Datos ingresados correct", "code" => "success"));
+            echo json_encode(array("message" => "Datos ingresados correctamente", "code" => "success"));
         }else{
             
-            echo json_encode(array("message" => "Datos ingresados incorrect", "code" => "danger"));
+            echo json_encode(array("message" => "Datos ingresados incorrectamente", "code" => "danger"));
         }
 
     }
@@ -118,10 +118,10 @@
    
         if($stm->execute()){
             
-            echo json_encode(array("message" => "Datos actualizados correct", "code" => "success"));
+            echo json_encode(array("message" => "Datos actualizados correctamente", "code" => "success"));
         }else{
             
-            echo json_encode(array("message" => "Datos actualizados incorrect", "code" => "danger"));
+            echo json_encode(array("message" => "Datos actualizados incorrectamente", "code" => "danger"));
         }
 
     }
@@ -138,10 +138,10 @@
    
         if($stm->execute()){
             
-            echo json_encode(array("message" => "Datos eliminados correct", "code" => "success"));
+            echo json_encode(array("message" => "Datos eliminados correctamente", "code" => "success"));
         }else{
             
-            echo json_encode(array("message" => "Datos eliminados incorrect", "code" => "danger"));
+            echo json_encode(array("message" => "Datos eliminados incorrectamente", "code" => "danger"));
         }
     }
 
