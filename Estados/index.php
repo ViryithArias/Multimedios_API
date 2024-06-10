@@ -32,7 +32,7 @@
                     
         case 'GET':
                 if (!empty($_GET["idEstado"])){
-                    $idCliente = intval($_GET["idEstado"]);
+                    $idEstado = intval($_GET["idEstado"]);
                     obtenerEstado($idEstado);
                 }
                 else{
@@ -129,7 +129,7 @@
    
         if($stm->execute()){
             
-            echo json_encode(array("message" => "Datos eliminados correctamente", "code" => "success"));
+            echo json_encode(array("message" => "Estado Eliminado correctamente", "code" => "success"));
         }else{
             
             echo json_encode(array("message" => "Datos eliminados incorrectamente", "code" => "danger"));

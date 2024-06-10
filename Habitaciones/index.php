@@ -105,7 +105,8 @@
         
         $query = "UPDATE `MAV_Habitaciones` SET `numeroHabitacion`= :numeroHabitacion, `tipoHabitacion`=:tipoHabitacion, `descripcion`=:descripcion, `precioPorNoche`=:precioPorNoche, `estado`=:estado WHERE `idHabitacion`=:idHabitacion";
           
-        $stm = $db->prepare($query);            
+        $stm = $db->prepare($query);     
+        $stm->bindParam(":idHabitacion", $data->idHabitacion);       
         $stm->bindParam(":numeroHabitacion", $data->numeroHabitacion);
         $stm->bindParam(":tipoHabitacion", $data->tipoHabitacion);
         $stm->bindParam(":descripcion", $data->descripcion);
@@ -134,10 +135,10 @@
    
         if($stm->execute()){
             
-            echo json_encode(array("message" => "Habitacion modificada correctamente", "code" => "success"));
+            echo json_encode(array("message" => "Habitacion desactivada correctamente", "code" => "success"));
         }else{
             
-            echo json_encode(array("message" => "Error al cancelar la habitación", "code" => "danger"));
+            echo json_encode(array("message" => "Error al desactivar la habitación", "code" => "danger"));
         }
     }
 
