@@ -25,7 +25,7 @@ switch ($request_method) {
     
     case 'DELETE':
         http_response_code(200);
-        eliminarReserva();
+        cancelarReserva();
         break;
     
     case 'GET':
@@ -59,23 +59,14 @@ function obtenerReserva($idReserva) {
     global $db;
     $query = "
         SELECT 
-            r.idReserva, 
-            r.idCliente, 
-            r.idHabitacion, 
-            r.fechaEntrada, 
-            r.fechaSalida, 
-            r.idEstado, 
-            r.fechaReserva, 
-            r.estado, 
-            h.tipoHabitacion 
-        FROM 
-            MAV_Reservas r 
-        JOIN 
-            MAV_Habitaciones h 
-        ON 
-            r.idHabitacion = h.idHabitacion 
-        WHERE 
-            r.idReserva = ?";
+            r.idReserva, r.idCliente, 
+            r.idHabitacion, r.fechaEntrada, 
+            r.fechaSalida, r.idEstado, r.fechaReserva, 
+            r.estado, h.tipoHabitacion 
+        FROM  MAV_Reservas r 
+        JOIN MAV_Habitaciones h 
+        ON r.idHabitacion = h.idHabitacion 
+        WHERE  r.idReserva = ?";
     $stm = $db->prepare($query);
     $stm->bindParam(1, $idReserva);
     $stm->execute();
@@ -86,11 +77,14 @@ function obtenerReserva($idReserva) {
 function insertarReserva() {
     global $db;
     $data = json_decode(file_get_contents("php://input"));
-    $query = "INSERT INTO `MAV_Reservas` (`fechaEntrada`, `fechaSalida`, `fechaReserva`, `estado`) VALUES (:fechaEntrada, :fechaSalida, :fechaReserva, :estado)";
+    $query = "INSERT INTO `MAV_Reservas` (`idCliente`,`idHabitacion`,`fechaEntrada`, `fechaSalida`, `idEstado`, `fechaReserva`, `estado`) VALUES (:idCliente, :idHabitacion, :fechaEntrada, :fechaSalida, :idEstado, :fechaReserva, :estado)";
     $stm = $db->prepare($query);
+    $stm->bindParam(":idCliente", $data->idCliente);
+    $stm->bindParam(":idHabitacion", $data->idHabitacion);
     $stm->bindParam(":fechaEntrada", $data->fechaEntrada);
     $stm->bindParam(":fechaSalida", $data->fechaSalida);
     $stm->bindParam(":fechaReserva", $data->fechaReserva);
+    $stm->bindParam(":idEstado", $data->idEstado);
     $stm->bindParam(":estado", $data->estado);
 
     if ($stm->execute()) {
@@ -136,6 +130,5 @@ function cancelarReserva() {
         echo json_encode(array("message" => "Error al cancelar la reserva", "code" => "danger"));
     }
 }
-
 
 ?>

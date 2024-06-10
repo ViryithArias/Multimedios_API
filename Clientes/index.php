@@ -118,10 +118,10 @@
    
         if($stm->execute()){
             
-            echo json_encode(array("message" => "Datos actualizados correctamente", "code" => "success"));
+            echo json_encode(array("message" => "Cliente actualizado correctamente", "code" => "success"));
         }else{
             
-            echo json_encode(array("message" => "Datos actualizados incorrectamente", "code" => "danger"));
+            echo json_encode(array("message" => "Cliente actualizado incorrectamente", "code" => "danger"));
         }
 
     }
@@ -138,10 +138,10 @@
    
         if($stm->execute()){
             
-            echo json_encode(array("message" => "Datos eliminados correctamente", "code" => "success"));
+            echo json_encode(array("message" => "Cliente eliminado correctamente", "code" => "success"));
         }else{
             
-            echo json_encode(array("message" => "Datos eliminados incorrectamente", "code" => "danger"));
+            echo json_encode(array("message" => "Cliente eliminado incorrectamente", "code" => "danger"));
         }
     }
 

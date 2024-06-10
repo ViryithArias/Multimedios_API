@@ -101,7 +101,7 @@
         global $db;
         $data = json_decode(file_get_contents("php://input"));
         
-        $query = "UPDATE `MAV_Estadoo` SET `descripcion`= :descripcion WHERE `idEstado`=:idEstado";
+        $query = "UPDATE `MAV_Estado` SET `descripcion`= :descripcion WHERE `idEstado`=:idEstado";
           
         $stm = $db->prepare($query);            
         $stm->bindParam(":idEstado", $data->idEstado);
