@@ -57,7 +57,25 @@ function obtenerReservas() {
 
 function obtenerReserva($idReserva) {
     global $db;
-    $query = "SELECT `idReserva`, `idCliente`,`idHabitacion`, `fechaEntrada`, `fechaSalida`, `idEstado`, `fechaReserva`, `estado` FROM `MAV_Reservas` WHERE `idReserva`=?";
+    $query = "
+        SELECT 
+            r.idReserva, 
+            r.idCliente, 
+            r.idHabitacion, 
+            r.fechaEntrada, 
+            r.fechaSalida, 
+            r.idEstado, 
+            r.fechaReserva, 
+            r.estado, 
+            h.tipoHabitacion 
+        FROM 
+            MAV_Reservas r 
+        JOIN 
+            MAV_Habitaciones h 
+        ON 
+            r.idHabitacion = h.idHabitacion 
+        WHERE 
+            r.idReserva = ?";
     $stm = $db->prepare($query);
     $stm->bindParam(1, $idReserva);
     $stm->execute();
