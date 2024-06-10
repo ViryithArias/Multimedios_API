@@ -27,7 +27,7 @@
                 
         case 'DELETE':
             http_response_code(200);
-            eliminarHabitacion();
+            cancelarHabitacion();
             break;
                     
         case 'GET':
@@ -123,21 +123,21 @@
     }
 
 
-    function eliminarHabitacion(){
+    function cancelarHabitacion(){
         global $db;
         $data = json_decode(file_get_contents("php://input"));
         
-        $query = "DELETE FROM `MAV_Habitaciones` WHERE `idHabitacion`=:idHabitacion";
+        $query = "UPDATE `MAV_Habitaciones` SET `estado` = 'Inactiva' WHERE `idHabitacion` = :idHabitacion";
           
         $stm = $db->prepare($query);            
         $stm->bindParam(":idHabitacion", $data->idHabitacion);
    
         if($stm->execute()){
             
-            echo json_encode(array("message" => "Datos eliminados correctamente", "code" => "success"));
+            echo json_encode(array("message" => "Habitacion modificada correctamente", "code" => "success"));
         }else{
             
-            echo json_encode(array("message" => "Datos eliminados incorrectamente", "code" => "danger"));
+            echo json_encode(array("message" => "Error al cancelar la habitación", "code" => "danger"));
         }
     }
 

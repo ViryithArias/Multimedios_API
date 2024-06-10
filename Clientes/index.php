@@ -27,7 +27,7 @@
                 
         case 'DELETE':
             http_response_code(200);
-            eliminarCliente();
+            desactivarCliente();
             break;
                     
         case 'GET':
@@ -57,7 +57,7 @@
         
         global $db;
 
-            $query = "SELECT `idCliente`, `nombre`, `apellido`, `email`, `telefono`, `direccion`, `pais` FROM `MAV_Clientes`";
+            $query = "SELECT `idCliente`, `nombre`, `apellido`, `email`, `telefono`, `direccion`, `pais`, `estado` FROM `MAV_Clientes`";
             $stm = $db->prepare($query);
             $stm->execute();
             $resultado = $stm->fetchAll(PDO::FETCH_ASSOC);
@@ -68,7 +68,7 @@
     function obtenerCliente($idCliente){
         global $db;
 
-            $query = "SELECT `idCliente`, `nombre`, `apellido`, `email`, `telefono`, `direccion`, `pais` FROM `MAV_Clientes` WHERE  `idCliente`=?";
+            $query = "SELECT `idCliente`, `nombre`, `apellido`, `email`, `telefono`, `direccion`, `pais`, `estado`  FROM `MAV_Clientes` WHERE  `idCliente`=?";
             $stm = $db->prepare($query);            
             $stm->bindParam(1, $idCliente);
             $stm->execute();
@@ -81,7 +81,7 @@
     function insertarCliente(){
         global $db;
         $data = json_decode(file_get_contents("php://input"));
-        $query = "INSERT INTO `MAV_Clientes` ( `nombre`, `apellido`, `email`, `telefono`, `direccion`, `pais`) VALUES ( :nombre, :apellido, :email, :telefono, :direccion, :pais)";
+        $query = "INSERT INTO `MAV_Clientes` ( `nombre`, `apellido`, `email`, `telefono`, `direccion`, `pais`, `estado`) VALUES ( :nombre, :apellido, :email, :telefono, :direccion, :pais, :estado)";
         $stm = $db->prepare($query);            
         $stm->bindParam(":nombre", $data->nombre);
         $stm->bindParam(":apellido", $data->apellido);
@@ -89,6 +89,7 @@
         $stm->bindParam(":telefono", $data->telefono);
         $stm->bindParam(":direccion", $data->direccion);
         $stm->bindParam(":pais", $data->pais);
+        $stm->bindParam(":estado", $data->estado);
    
         if($stm->execute()){
             
@@ -105,7 +106,7 @@
         global $db;
         $data = json_decode(file_get_contents("php://input"));
         
-        $query = "UPDATE `MAV_Clientes` SET `nombre`= :nombre, `apellido`=:apellido, `email`=:email, `telefono`=:telefono, `direccion`=:direccion, `pais`=:pais WHERE `idCliente`=:idCliente";
+        $query = "UPDATE `MAV_Clientes` SET `nombre`= :nombre, `apellido`=:apellido, `email`=:email, `telefono`=:telefono, `direccion`=:direccion, `pais`=:pais, `estado`=:estado WHERE `idCliente`=:idCliente";
           
         $stm = $db->prepare($query);            
         $stm->bindParam(":idCliente", $data->idCliente);
@@ -115,6 +116,7 @@
         $stm->bindParam(":telefono", $data->telefono);
         $stm->bindParam(":direccion", $data->direccion);
         $stm->bindParam(":pais", $data->pais);
+        $stm->bindParam(":estado", $data->estado);
    
         if($stm->execute()){
             
@@ -127,21 +129,21 @@
     }
 
 
-    function eliminarCliente(){
+    function desactivarCliente(){
         global $db;
         $data = json_decode(file_get_contents("php://input"));
         
-        $query = "DELETE FROM `MAV_Clientes` WHERE `idCliente`=:idCliente";
+        $query = "UPDATE `MAV_Clientes` SET `estado` = 'Inactivo' WHERE `idCliente` = :idCliente";
           
         $stm = $db->prepare($query);            
         $stm->bindParam(":idCliente", $data->idCliente);
    
         if($stm->execute()){
             
-            echo json_encode(array("message" => "Cliente eliminado correctamente", "code" => "success"));
+            echo json_encode(array("message" => "Cliente desactivado correctamente", "code" => "success"));
         }else{
             
-            echo json_encode(array("message" => "Cliente eliminado incorrectamente", "code" => "danger"));
+            echo json_encode(array("message" => "Error al desactivar cliente", "code" => "danger"));
         }
     }
 
